@@ -1,0 +1,91 @@
+<html>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title> AngularJS Range Slider</title>
+  
+  <script type="text/javascript" src="./js/angular.min.js"></script>
+  <script type="text/javascript" src="./js/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="./styles/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="./styles/slider.css">
+  <script type="text/javascript" src="./js/bootstrap-slider.js"></script>
+  <style type="text/css">
+
+
+    div#mySlider {
+        margin-top: 5px;
+        margin-left: 15px;
+    }
+
+    .pointer {
+        cursor: pointer;
+    }
+  </style>
+  
+
+
+<script type="text/javascript">//<![CDATA[ 
+
+angular.
+    module('myApp', []).
+      directive('bootstrapSlider', function() {
+        return function(scope, element, attrs) {
+            $(document).ready(function() {
+                // var init = scope.$eval(attrs.ngModel);
+                var min = scope.$eval(attrs.bootstrapSliderMin);
+                var max = scope.$eval(attrs.bootstrapSliderMax);
+                
+                $(element[0]).slider({
+                    value : [3,4],
+                    min : min,
+                    max : max,
+                    tooltip : 'show',
+                    handle: 'square',
+                    selection: 'after',
+                    orientation: 'vertical'
+                });
+
+                 $('#hola').slider({
+                    value : [3,4],
+                    min : min,
+                    max : max,
+                    tooltip : 'show',
+                    handle: 'square',
+                    selection: 'after',
+                });
+                
+                // Update view to reflect model
+                scope.$watch(attrs.ngModel, function(v) {
+                    $(element[0]).slider('setValue', v);
+                });
+                
+                // Update model to reflect view
+                $(element[0]).slider().on('slide', function(ev) {
+                    scope.$apply(function() {
+                        scope[attrs.ngModel] = ev.value;
+                    });
+                });
+            });
+        };
+    });
+
+function CarouselController($scope, $timeout) {
+}
+//]]>  
+
+</script>
+
+
+</head>
+<body>
+    <div ng-app="myApp">
+    <div>
+        <div ng-controller="CarouselController" ng-init='setImages(defaultImages)'>
+            <div id="mySlider" class="pointer">
+                <div bootstrap-slider="true" ng-model="index" bootstrap-slider-min="0" bootstrap-slider-max="10"> </div>
+            </div>
+            <h3>value of :  {{index}}</h3>
+        </div>
+    </div>
+    <div bootstrap-slider="true"  id="hola"> </div>
+</div>
+</body>
+</html>
