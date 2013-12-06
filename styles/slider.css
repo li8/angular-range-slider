@@ -32,12 +32,12 @@
   margin-top: -5px;
 }
 .slider.slider-horizontal .slider-handle.triangle {
-  border-width: 0 5px 10px 5px;
+  border-width: 0 4px 8px 4px;
   width: 0;
   height: 0;
   border-bottom-color: #0480be;
   margin-top: 10px;
-  margin-left:-5px;
+  margin-left:-4px;
 }
 .slider.slider-vertical {
   height: 210px;
@@ -136,4 +136,13 @@
 }
 .slider-handle.triangle {
   background: transparent none;
+}
+
+
+.rect-box{
+  background: #0480be;
+  width: 8px;
+  height: 8px;
+  margin-top: 8px;
+  margin-left: -4px;
 }
