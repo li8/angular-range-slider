@@ -38,22 +38,14 @@ angular.
                     min : min,
                     max : max,
                     tooltip : 'show',
-                    handle: 'square',
-                    selection: 'after',
-                    orientation: 'vertical'
+                    handle: 'triangle',
+                    selection: 'after'
                 });
 
-                 $('#hola').slider({
-                    value : [3,4],
-                    min : min,
-                    max : max,
-                    tooltip : 'show',
-                    handle: 'square',
-                    selection: 'after',
-                });
                 
                 // Update view to reflect model
                 scope.$watch(attrs.ngModel, function(v) {
+                    console.log(v);
                     $(element[0]).slider('setValue', v);
                 });
                 
@@ -67,8 +59,6 @@ angular.
         };
     });
 
-function CarouselController($scope, $timeout) {
-}
 //]]>  
 
 </script>
@@ -76,16 +66,13 @@ function CarouselController($scope, $timeout) {
 
 </head>
 <body>
-    <div ng-app="myApp">
+    <div ng-app="myApp" style="margin-top:100px;">
     <div>
-        <div ng-controller="CarouselController" ng-init='setImages(defaultImages)'>
             <div id="mySlider" class="pointer">
                 <div bootstrap-slider="true" ng-model="index" bootstrap-slider-min="0" bootstrap-slider-max="10"> </div>
             </div>
             <h3>value of :  {{index}}</h3>
-        </div>
     </div>
-    <div bootstrap-slider="true"  id="hola"> </div>
-</div>
+    </div>
 </body>
 </html>
