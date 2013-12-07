@@ -22,57 +22,23 @@
   
 
 
-<script type="text/javascript">//<![CDATA[ 
-
-angular.
-    module('myApp', []).
-      directive('bootstrapSlider', function() {
-        return function(scope, element, attrs) {
-            $(document).ready(function() {
-                // var init = scope.$eval(attrs.ngModel);
-                var min = scope.$eval(attrs.bootstrapSliderMin);
-                var max = scope.$eval(attrs.bootstrapSliderMax);
-                
-                $(element[0]).slider({
-                    value : [3,4],
-                    min : min,
-                    max : max,
-                    tooltip : 'show',
-                    handle: 'triangle',
-                    selection: 'after'
-                });
-
-                
-                // Update view to reflect model
-                scope.$watch(attrs.ngModel, function(v) {
-                    console.log(v);
-                    $(element[0]).slider('setValue', v);
-                });
-                
-                // Update model to reflect view
-                $(element[0]).slider().on('slide', function(ev) {
-                    scope.$apply(function() {
-                        scope[attrs.ngModel] = ev.value;
-                    });
-                });
-            });
-        };
-    });
-
-//]]>  
-
-</script>
+<script type="text/javascript" src="./js/app.js"></script>
 
 
 </head>
 <body>
     <div ng-app="myApp" style="margin-top:100px;">
-    <div>
+
+            
+
+
             <div id="mySlider" class="pointer">
-                <div bootstrap-slider="true" ng-model="index" bootstrap-slider-min="0" bootstrap-slider-max="10"> </div>
+                    <div bootstrap-slider="true" ng-model="index" min="0" max="15000" milestones="1000,5000,10000" steps="50,100,500,1000" ></div>
             </div>
-            <h3>value of :  {{index}}</h3>
-    </div>
+
+
+
+       
     </div>
 </body>
 </html>
