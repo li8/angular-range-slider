@@ -21,11 +21,11 @@
 
 	var Slider = function(element, options) {
 		this.element = $(element);
-		this.picker = $('<div class="slider">'+
+		this.picker = $('{{index.val.0}}<div class="slider">'+
 							'<div class="slider-track">'+
 								'<div class="slider-selection"></div>'+
-								'<div class="slider-handle"><div class="rect-box"></div></div>'+
-								'<div class="slider-handle"><div class="rect-box"></div></div>'+
+								'<div class="slider-handle" id="lefty"><div class="rect-box"></div></div>'+
+								'<div class="slider-handle" id="righty"><div class="rect-box"></div></div>'+
 							'</div>'+
 							'<div class="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'+
 						'</div>')
@@ -69,6 +69,12 @@
 		this.min = this.element.data('slider-min')||options.min;
 		this.max = this.element.data('slider-max')||options.max;
 		this.step = this.element.data('slider-step')||options.step;
+
+		//my code start
+		this.steps = this.element.data('slider-steps')||options.steps;
+		this.milestones = this.element.data('milestones') || options.milestones;
+		//my code ends
+
 		this.value = this.element.data('slider-value')||options.value;
 		if (this.value[1]) {
 			this.range = true;
@@ -167,6 +173,8 @@
 		},
 
 		layout: function(){
+			//console.log("------lasyout----------------------");
+			//console.log(this.step);
 			this.handle1Stype[this.stylePos] = this.percentage[0]+'%';
 			this.handle2Stype[this.stylePos] = this.percentage[1]+'%';
 			if (this.orientation == 'vertical') {
@@ -192,7 +200,8 @@
 		},
 
 		mousedown: function(ev) {
-
+			//console.log("mousedown");
+			//console.log(this.step);
 			// Touch: Get the original event:
 			if (this.touchCapable && ev.type === 'touchstart') {
 				ev = ev.originalEvent;
@@ -240,7 +249,8 @@
 		},
 
 		mousemove: function(ev) {
-			
+			//console.log("mousemove");
+			//console.log(this.step);
 			// Touch: Get the original event:
 			if (this.touchCapable && ev.type === 'touchmove') {
 				ev = ev.originalEvent;
@@ -250,7 +260,7 @@
 			if (this.range) {
 				if (this.dragged === 0 && this.percentage[1] < percentage) {
 					this.percentage[0] = this.percentage[1];
-					this.dragged = 1;
+					this.inDragged = 1;
 				} else if (this.dragged === 1 && this.percentage[0] > percentage) {
 					this.percentage[1] = this.percentage[0];
 					this.dragged = 0;
@@ -270,6 +280,8 @@
 		},
 
 		mouseup: function(ev) {
+			//console.log("mouseup");
+			//console.log(this.step);
 			if (this.touchCapable) {
 				// Touch: Bind touch events:
 				$(document).off({
@@ -300,11 +312,13 @@
 		},
 
 		calculateValue: function() {
+			//console.log("calval--------------------->");
+			//console.log(this.step);
 			var val;
 			if (this.range) {
 				val = [
 					(this.min + Math.round((this.diff * this.percentage[0]/100)/this.step)*this.step),
-					(this.min + Math.round((this.diff * this.percentage[1]/100)/this.step)*this.step)
+					(this.min + Math.round	((this.diff * this.percentage[1]/100)/this.step)*this.step)
 				];
 				this.value = val;
 			} else {
@@ -315,23 +329,32 @@
 		},
 
 		getPercentage: function(ev) {
+			//console.log("getPercentage");
+			//console.log(this.step);
 			if (this.touchCapable) {
 				ev = ev.touches[0];
 			}
+			this.recalculateStep();
+			this.recalculatePercentage();
 			var percentage = (ev[this.mousePos] - this.offset[this.stylePos])*100/this.size;
 			percentage = Math.round(percentage/this.percentage[2])*this.percentage[2];
 			return Math.max(0, Math.min(100, percentage));
 		},
 
 		getValue: function() {
+			//console.log(">>>>>>>>>>>>>getval");
+			//console.log(this.step);
 			if (this.range) {
 				return this.value;
+
 			}
 			return this.value[0];
 		},
 
 		setValue: function(val) {
 			this.value = val;
+			//console.log("setVAl");
+			//console.log(this.step);
 
 			if (this.range) {
 				this.value[0] = Math.max(this.min, Math.min(this.max, this.value[0]));
@@ -352,6 +375,35 @@
 				this.step*100/this.diff
 			];
 			this.layout();
+		},
+		recalculateStep: function(){
+			// console.log("recalculateStep");
+			// console.log("-------->",this.step);
+			valTostep=parseInt(this.value[this.dragged]);
+			milestones = this.milestones;
+			step = this.step;
+			steps = this.steps;
+			len = milestones.length;
+			i = 0;
+			do{
+				if( valTostep < parseInt(milestones[i])){
+					this.step = parseInt(steps[i]);
+					return null;
+				}
+				i++;
+			}while( i < len);
+			this.step = parseInt(steps[len]);
+			return null;
+
+		},
+		recalculatePercentage: function(){
+			//console.log("recalculatePercentage");
+			this.percentage = [
+				(this.value[0]-this.min)*100/this.diff,
+				(this.value[1]-this.min)*100/this.diff,
+				this.step*100/this.diff
+			];
+			return null;
 		}
 	};
 

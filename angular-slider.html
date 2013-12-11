@@ -1,21 +1,38 @@
-<div class="well min-max" >
-           {{index.0}}
-        </div>
+<div ng-show="index.valid">
+  <div ng-init  ="">
 
+  <div class="row-fluid">
+    <div class="span2" style="margin:0">
+      <div class="well well-small min-max" >
+          <strong>Min</strong><br/>{{index.min}}
+      </div>
+    </div>
+    <div class="span8" style="margin:0">
+        <ul style="list-style-type: none;margin:0">
+          <li ng-repeat="stepper in index.stepper" style="float:left;border-right:1px solid #ddd;height:10px;width:10px;">
+          </li>
+        </ul>
+       <div class="angular-slider">
+       </div>
+    </div>
+    <div class="span2" >
+       <div class="well well-small min-max" >
+          <strong>Max</strong><br/>{{index.max}}
+       </div>
+    </div>
 
+    Lower Bound:
+    <input type="text" name="input"  ng-trim="true" >
+    <br/>
+    Higher Bound:
+    <input type="text" name="input"  ng-trim="true">
 
-          <div class="angular-slider"></div>
+  </div>
+</div>
 
+<div class="row-fluid">
+  <div class="alert alert-error span6 alertBox" ng-show="index.alert" style="float:left;width:50%;">
 
-
-
-        <div class="well min-max" >
-            {{index.1}}
-        </div>
-
-
-
-
-        <div class="alert alert-error" ng-show="index" style="float:left;width:100%;">
-                    Milestones and steps dont match. \n Must have a step more than the no of milestones
-                </div>
+    {{index.alert}}
+  </div>
+</div>
