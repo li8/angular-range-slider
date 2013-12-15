@@ -10,6 +10,7 @@
   display: inline-block;
   vertical-align: middle;
   position: relative;
+  width:100%;
 }
 .slider.slider-horizontal {
   width: 100%;
@@ -152,4 +153,20 @@
 .min-max{
   float:left;width:50px;margin:10px;
   text-align: center;
+}
+.scale{
+  list-style-type: none;
+  margin:0
+}
+
+.scale > li{
+  float:left;
+  border-right:1px solid #ddd;
+  height:10px;
+  width:10px;
+}
+
+
+.scale li:first-child{
+  border-left:1px solid #ddd;
 }

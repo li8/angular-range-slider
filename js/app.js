@@ -50,7 +50,7 @@ angular.
                     obj.min = min;
                     obj.max = max;
                     arr=[];
-                    for(j= 0 ;  j< parseInt(max/steps[0]);j++){
+                    for(j= 0 ;  j< max;j=j+steps[0]){
                         viewObj = {};
                         viewObj.value =  min + steps[0]; 
                         arr.push(viewObj);
